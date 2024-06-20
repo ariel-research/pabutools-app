@@ -1,4 +1,4 @@
-import { state } from './globalState.js';
+import { state, settings } from './globalState.js';
 import { buildTable } from './TableBuilder.js';
 import { setInstance, loadMatrix } from './InstanceManagement.js';
 
@@ -49,14 +49,30 @@ for i, voter in enumerate(profile):
         u[project_index[project.name]][i] = 1
 return_object['cost'] = cost
 return_object['u'] = u
+if profile.total() > len(profile):
+    return_object['with_weights'] = True
+else:
+    return_object['with_weights'] = False
+w = {i: voter for i, voter in enumerate(profile.values())}
+return_object['w'] = w
 json.dumps(return_object)
                             `));
                             let N_ = Array.from(Array(pbImport.num_voter).keys());
                             let C_ = Array.from(Array(pbImport.num_projects).keys());
                             let cost_ = pbImport.cost;
                             let u_ = pbImport.u;
+                            let w_ = pbImport.w;
                             let budget_ = pbImport.budget;
-                            setInstance(N_, C_, cost_, u_, budget_);
+                            if (pbImport.with_weights){
+                                settings.useWeights = true;
+                                let useWeights = document.getElementById("weights");
+                                useWeights.checked = true;
+                            } else {
+                                settings.useWeights = false;
+                                let useWeights = document.getElementById("weights");
+                                useWeights.checked = false;
+                            }
+                            setInstance(N_, C_, cost_, u_, budget_, w_);
                             buildTable();
                         // } catch (e) {
                         //     console.log(e);

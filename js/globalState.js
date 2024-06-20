@@ -13,6 +13,7 @@ export const settings = {
     useFractions: false,
     showPropertyinTable: false,
     randomizer: { id: 'IC', p: 0.5 },
+    useWeights: false,
 }
 
 export let storedLogs = {};

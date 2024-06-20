@@ -62,7 +62,18 @@ export async function calculateRules() {
     if (!settings.liveMode) {
         return;
     }
+    
+    let weights = "[]"
+    if(settings.useWeights){
+        weights = "["
+        console.log(state.w)
+        for (let i in state.w){
+            weights += i + ","
+        }
+        weights+="]"
+    }
     let profileString = "[";
+    let voters = []
     for (let i of state.N) {
         let voterString = "ApprovalBallot([";
         let ballotIsEmpty = true;   
@@ -76,6 +87,7 @@ export async function calculateRules() {
             voterString = voterString.slice(0, -1); // remove trailing comma
         }
         voterString += "])";
+        voters.push(voterString)
         profileString += voterString + ",";
     }
     profileString = profileString.slice(0, -1) + "]"; // remove trailing comma
@@ -91,8 +103,21 @@ export async function calculateRules() {
         instance.meta["instance"] = "N/A"
         instance.meta["rule"] = "N/A"
         instance.budget_limit = ${state.budget}
-        profile = ApprovalProfile(${profileString})
+        if "${settings.useWeights}" == "true": 
+            voters = []
+            voters_frozen = []
+            for voter in ${voters}:
+                voters.append(voter)
+                voters_frozen.append(voter.frozen())
+            profile = ApprovalProfile(voters)
+            profile = profile.as_multiprofile()
+            weights = ${weights}
+            for i,voter in enumerate(voters_frozen):
+                profile[voter]=weights[i]
+        else:
+            profile = ApprovalProfile(${profileString})
     `);
+    
     let table = document.getElementById("profile-table");
     let tBody = table.getElementsByTagName("tbody")[0];
     for (let rule in rules) {
@@ -166,4 +191,30 @@ export async function calculateRules() {
         }
     }
     return true;
+}
+
+export async function rulesDontSupportWeight(){
+    if (!settings.liveMode) {
+        return;
+    }
+    for (let rule in rules) {
+        if (!rules[rule].active) {
+            continue;
+        }
+        handleRuleDoesntSupportWeight(rule)
+    }
+}
+
+function handleRuleDoesntSupportWeight(rule){
+    if (settings.useWeights && !rules[rule].weight){
+        for (let j of state.C) {
+            let cell = document.getElementById("rule-" + rule + "-candidate-" + j + "-cell");
+            cell.innerHTML = "";
+            cell.className = "";
+        }
+        let row = document.getElementById("rule-" + rule + "-row");
+        row.classList.remove("rule-row")
+        return true
+    }
+    return false
 }

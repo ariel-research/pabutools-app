@@ -14,49 +14,57 @@ export const rules = {
         "fullName": "Greedy Utilitarian Welfare",
         "shortName": "Greedy",
         "command": "greedy_utilitarian_welfare(instance, profile, sat_class=Cost_Sat)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "mes": {
         "fullName": "Method of Equal Shares",
         "shortName": "Equal Shares",
         "command": `completion_by_rule_combination(instance, profile, [exhaustion_by_budget_increase, greedy_utilitarian_welfare], [{"rule": method_of_equal_shares, "rule_params": {"sat_class": Cost_Sat}}, {"sat_class": Cost_Sat}])`,
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "mes_add1": {
         "fullName": "Method of Equal Shares (with 'add1' instead of 'add1u')",
         "shortName": "Equal Shares",
         "command": "method_of_equal_shares(instance, profile, sat_class=Cost_Sat, voter_budget_increment=1)",
-        "active": 0
+        "active": 0,
+        "weight": true
     },
     "phragmen": {
         "fullName": "Sequential Phragmén",
         "shortName": "Phragmén",
         "command": "sequential_phragmen(instance, profile)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "av_card": {
         "fullName": "Greedy Utilitarian Welfare (cardinality satisfaction)",
         "shortName": "Greedy (card.)",
         "command": "greedy_utilitarian_welfare(instance, profile, sat_class=Cardinality_Sat)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "mes_card": {
         "fullName": "Method of Equal Shares (cardinality satisfaction)",
         "shortName": "Equal Shares (card.)",
         "command": "method_of_equal_shares(instance, profile, sat_class=Cardinality_Sat, voter_budget_increment=1)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "av_cc": { // Chamberlin-Courant, CC_Sat
         "fullName": "Greedy Chamberlin-Courant",
         "shortName": "Greedy (CC)",
         "command": "greedy_utilitarian_welfare(instance, profile, sat_class=CC_Sat)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
     "mes_cc": {
         "fullName": "Method of Equal Shares (CC satisfaction)",
         "shortName": "Equal Shares (CC)",
         "command": "method_of_equal_shares(instance, profile, sat_class=CC_Sat, voter_budget_increment=1)",
-        "active": 1
+        "active": 1,
+        "weight": true
     },
 }
 

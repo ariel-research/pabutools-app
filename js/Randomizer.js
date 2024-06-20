@@ -64,7 +64,7 @@ export function populateRandomizerModal(attachListeners=false) {
 
 export async function randomize() {
     await window.micropip.install("pip/abcvoting-0.0.0-py3-none-any.whl?4", true);
-    let result = window.pyodide.runPython(`
+    let result = JSON.parse(window.pyodide.runPython(`
         # from abcvoting.preferences import Profile
         # from abcvoting import abcrules, properties, fileio
         from abcvoting.generate import random_profile, PointProbabilityDistribution
@@ -87,9 +87,11 @@ export async function randomize() {
         for i, voter in enumerate(profile):
             for candidate in voter.approved:
                 u[candidate][i] = 1
-        json.dumps(u)
-    `);
-    let u_ = JSON.parse(result);
-    setInstance(state.N, state.C, state.cost, u_, state.budget);
+        w = {i : voter.weight for i, voter in enumerate(profile)}
+        json.dumps({'u': u, 'w': w})
+    `));
+    let u_ = result.u;
+    let w_ = result.w;
+    setInstance(state.N, state.C, state.cost, u_, state.budget, w_);
     buildTable();
 }
