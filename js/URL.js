@@ -9,7 +9,6 @@ export function copyURL() {
         + state.C.map(c => state.cost[c]).join(",") + "&"
         + profileToMatrix(state, settings.useWeights).replaceAll("\n", "&").slice(0, -1);
     let URL = window.location.origin + window.location.pathname + "?" + stateString;
-    console.log(URL);
     let button = document.getElementById("copy-url-button");
     let originalHTML = button.innerHTML;
     navigator.clipboard.writeText(URL).then(function () {
@@ -42,7 +41,6 @@ export function readURL() {
                 loadStandardInstance();
             } else {
                 state.cost = Object.fromEntries(info[1].split(",").map((c, i) => [i, parseInt(c)]));
-                console.log(state.cost)
                 buildTable();
             }
         } catch (e) {

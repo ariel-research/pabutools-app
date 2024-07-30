@@ -66,9 +66,8 @@ export async function calculateRules() {
     let weights = "[]"
     if(settings.useWeights){
         weights = "["
-        console.log(state.w)
         for (let i in state.w){
-            weights += i + ","
+            weights += state.w[i] + ","
         }
         weights+="]"
     }
